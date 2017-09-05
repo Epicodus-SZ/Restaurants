@@ -14,7 +14,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.findRestaurantsButton) Button mFindRestaurantsButton;
@@ -29,19 +29,19 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Typeface ostrichFont = Typeface.createFromAsset(getAssets(), "fonts/ostrichregular.ttf");
         mAppNameTextView.setTypeface(ostrichFont);
-        mFindRestaurantsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String location = mLocationEditText.getText().toString();
-                Log.d(TAG, location);
-                Intent intent = new Intent(MainActivity.this, RestaurantsActivity.class);
-                intent.putExtra("location", "Here are all the restaurants near: " + location);
-                startActivity(intent);
 
+        //Add a click listener thatfiresthe onClick method and passes the view
+        mFindRestaurantsButton.setOnClickListener(this);
 
+    }  //end of onCreate
 
-            }
-        });
-
+    @Override
+    public void onClick(View v) {
+        if(v == mFindRestaurantsButton) {
+            String location = mLocationEditText.getText().toString();
+            Intent intent = new Intent(MainActivity.this, RestaurantsActivity.class);
+            intent.putExtra("location", location);
+            startActivity(intent);
+        }
     }
 }
